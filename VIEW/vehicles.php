@@ -1,6 +1,7 @@
 <?php
    include('session.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,46 +30,56 @@
 
   <div class="container" role="main">
     <div class="jumbotron text-center" style="padding-top:40px; padding-bottom:0px; background-color: transparent;">
-      <h2>Travel Requests</h2>
+      <h2>Vehicles</h2>
     </div>
-    <br /><br /><br />
+    <br />
     <div style="float:right">
       <!-- <button type="button" class="btn btn-primary" style="padding:10px;margin-right:10px;padding-right:35px;padding-left:25px">Edit</button> -->
-      <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>
+      <?php
+      if ($login_session == 1002) { ?>
+        <!--hardcoded for admin or not !-->
+        <!-- echo' <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>';    -->
+        <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>
+      <?php
+      } else { ?>
+        <input type="hidden" class="btn btn-danger" style="padding:10px" data-toggle="modal" data-target="#myModal">
+      <?php
+      } ?>
+
       <br /><br />
     </div>
 
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Date</th>
-          <th scope="col">From</th>
-          <th scope="col">To</th>
-          <th scope="col">Status</th>
-          <th scope="col"></th>
+          <th scope="col">Vehicle</th>
+          <th scope="col">Modle</th>
+          <th scope="col">Availabiblity</th>
+          <th scope="col">Reg.no</th>
+          <!-- <th scope="col">Status</th> -->
+          <!-- <th scope="col"></th> -->
         </tr>
       </thead>
       <tbody>
         <?php
         $connect = new mysqli("localhost", "root", "", "ITP_HR");
-        $sql = "SELECT Travel_id,Tfrom,Tto,Tdate,Tstatus FROM travel_request where Emp_id = $login_session"; //need to add where clause for the loging users details
+        $sql = "SELECT * FROM vehicles"; //need to add where clause for the loging users details
         $result = mysqli_query($connect, $sql);
         // var_dump($result);
         while ($row =  mysqli_fetch_array($result)) {
-          $trav_idp = $row['Travel_id'];
-          $fromp = $row['Tfrom'];
-          $toT = $row['Tto'];
-          $datep = $row['Tdate'];
-          $statusp = $row['Tstatus'];
+          $Vehicle_type = $row['Vehicle_type'];
+          $Availabiblity = $row['Availabiblity'];
+          $img_vehicle = $row['img_vehicle'];
+          $Reg_no = $row['Reg_no'];
+          $v_id = $row['v_id'];
           ?>
           <tr>
-            <td scope="row"><?= $trav_idp ?></td>
-            <td scope="row"><?= $datep ?></td>
-            <td scope="row"><?= $fromp ?></td>
-            <td scope="row"><?= $toT ?></td>
-            <td scope="row"><?= $statusp ?></td>
-            <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<?= $trav_idp ?>" onclick="">View</button></td>
+            <td scope="row"> <img src="data:image/jpeg;base64,<?php echo base64_encode($img_vehicle); ?>" class="rounded-circle" alt="Cinque Terre" width=120px height=80x></td>
+            <td scope="row"><?= $Vehicle_type ?></td>
+            <td scope="row"><?= $Availabiblity ?></td>
+            <td scope="row"><?= $Reg_no ?></td>
+            <!-- <td scope="row"><!?= $statusp ?></td> -->
+            <!-- <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<?= $trav_idp ?>" onclick="">View</button></td> -->
           </tr>
       </tbody>
     <?php
@@ -77,22 +88,29 @@
     </tbody>
     </table>
 
-    <script>
-      $(document).ready(function() {
-        $(document).on('click', ".btn-view-transport", function() {
-          var id = $(this).data('id');
-          $.ajax({
-           url: "test.php?id=" + id,
-           methos: 'GET',
-            success: function(result) {
-             //  event.preventDefault();
-              $('#BtnModal').modal('show');
-            }
-          });
 
-        });
-      });
-    </script>
+    <?php
+   $connect = new mysqli("localhost", "root", "", "ITP_HR"); 
+   if(isset($_POST['btn'])){
+
+      $Vehicle_type = $_POST ['Vehicle_type'];
+      $Reg_no =$_POST ['Reg_no'];
+       $name1 = $_FILES['myfile']['name'];
+       $type1 =$_FILES['myfile']['type'];
+     $data1 = file_get_contents($_FILES['myfile']['tmp_name']);
+     $sql = "INSERT INTO vehicles (Vehicle_type,Reg_no,name_img,mime,img_vehicle)values('$Vehicle_type',$Reg_no','$name1','$type1','$data1')";
+
+     if($connect-> query($sql))
+        {
+            echo "New record is inserted sucessfully";
+         //   header("refresh:1; url=dashboard.php");
+        }
+        else{
+            echo "Error: " . $sql . "<br>" . $connect->error;
+        }
+      }
+?>
+
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
 
@@ -100,198 +118,56 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h2 class="modal-title">New Travel Reqest</h2>
+            <h2 class="modal-title">Add a new Vehicle</h2>
           </div>
           <div class="modal-body">
-            <form action="AddTravel.php" onsubmit="return validateForm()" method="POST">
+          <form action="" method="POST" enctype="multipart/form-data">
               <div class="form-row">
-                <div class="form-group col-md-6"><input type="hidden" name="Emp_id" value=<?=$login_session?>>
-                  <label for="inputFrom">Travel From</label>
-                  <input type="text" class="form-control" id="inputFrom" placeholder="Location" name="Tfrom" required>
+                <div class="form-group col-md-6"><input type="hidden" name="Emp_id" value=<?= $login_session ?>>
+                  <label for="Vehicle_type">Vehicle Type</label>
+                  <input type="text" class="form-control" id="inputFrom" placeholder="Vehicle Type" name="Vehicle_type" required>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="inputTo">Travel To</label>
-                  <input type="text" class="form-control" id="inputTo" placeholder="Location" name="Tto" required>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputFromDate">Start Date</label>
-                  <!-- <div class='input-group date' id='datetimepicker1' >
-                                  <input type='text' class="form-control" name="Tdate">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                   $(function () {
-                                        $('#datetimepicker1').datetimepicker();
-                                      });
-                                </script>
-                            </div>    -->
-                  <input type="date" class="form-control" name="Tdate" id="Tdate">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="Edate">End Date</label>
-                  <!-- <div class='input-group date' id='datetimepicker2' >
-                                  <input type='text' class="form-control" name="EndDate">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                   $(function () {
-                                        $('#datetimepicker2').datetimepicker();
-                                      });
-                                </script>
-                            </div>  -->
-                  <input type="date" class="form-control" name="EndDate" id="Edate" required>
+                  <label for="Reg_no">Registration No.</label>
+                  <input type="text" class="form-control" id="inputTo" placeholder="Reg No." name="Reg_no" required>
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Prority</label>
-                  <select id="inputState" class="form-control" name="priority" required>
-                    <!-- <option selected>Choose...</option> -->
-                    <option>Low</option>
-                    <option>Medium</option>
-                    <option>High</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Vehicle</label>
-                  <select id="inputState" class="form-control" name="Vehicle" required>
-                    <!-- <option selected>Choose...</option> -->
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
-                </div>
+                <div class="form-group col-md-12">
+                  <label for="img_vehicle">Add image</label>
+                  <div class="form-group">
+                    <input type="file" name="myfile"  class="form-control-file" id="exampleFormControlFile1">
+                  </div>
               </div>
-
+              </div>     
               <div class="form-row">
-                <div class="form-group col-md-">
-                  <label for="inputCity">Notes</label>
-                  <textarea class="form-control" id="inputCity" name="description"></textarea>
+                <div class="form-group col-md-6">    
+                  <button type="submit" class="btn btn-primary" name="btn">+ Add Vehicle</button>
+                  <button type="reset" class="btn btn-primary">Clear</button>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-primary">+ Request</button>
-              <button type="reset" class="btn btn-primary">Clear</button>
+              </div>  
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- >Model for table table view buttons<-->
-    <div class="modal fade" id="BtnModal" role="dialog" aria-hidden="true">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h2 class="modal-title">New Travel Reqest</h2>
-          </div>
-          <div class="modal-body">
-            <form action="#" onsubmit="#" method="POST">
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Travel From</label>
-                  <input type="text" class="form-control" id="inputFrom" placeholder="Location" name="Tfrom" value="<?=$row[1]?>">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputPassword4">Travel To</label>
-                  <input type="text" class="form-control" id="inputTo" placeholder="Location" name="Tto" value="<?=$Tto?>">
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputFromDate">Travel Date</label>
-                  <!-- <div class='input-group date' id='datetimepicker1' >
-                                  <input type='text' class="form-control" name="Tdate">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                   $(function () {
-                                        $('#datetimepicker1').datetimepicker();
-                                      });
-                                </script>
-                            </div>    -->
-                  <input type="date" class="form-control" name="Tdate" value="<?=$Tdate?>">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputFromDate">Travel Date</label>
-                  <!-- <div class='input-group date' id='datetimepicker2' >
-                                  <input type='text' class="form-control" name="EndDate">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                   $(function () {
-                                        $('#datetimepicker2').datetimepicker();
-                                      });
-                                </script>
-                            </div>  -->
-                  <input type="date" class="form-control" name="EndDate" value="<?=$EndDate?>">
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Prority</label>
-                  <select id="inputState" class="form-control" name="priority">
-                    <option selected><?=$priority?></option>
-
-                  </select>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Vehicle</label>
-                  <select id="inputState" class="form-control" name="Vehicle">
-                    <option selected><?=$Vehicle?></option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-">
-                  <label for="inputCity">Notes</label>
-                  <textarea class="form-control" id="inputCity" name="description" value="<?=$description?>"></textarea>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Update</button>
-              <!-- <button type="reset" class="btn btn-primary">Clear</button> -->
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
       </div>
     </div>
 
     <script>
-    function validateForm(){  
-      var startDate = document.getElementById("Tdate").value;
-      var endDate = document.getElementById("Edate").value;
-      console.log("Edate");
-    if ((Date.parse(endDate) <= Date.parse(startDate))) {
-        alert("End date should be greater than Start date");
-        document.getElementById("inputEndDate").value = "";
-    }
+      function validateForm() {
+        var startDate = document.getElementById("Tdate").value;
+        var endDate = document.getElementById("Edate").value;
+        console.log("Edate");
+        if ((Date.parse(endDate) <= Date.parse(startDate))) {
+          alert("End date should be greater than Start date");
+          document.getElementById("inputEndDate").value = "";
+        }
 
 
-    }
-
-  </script>
+      }
+    </script>
 </body>
 
 </html>

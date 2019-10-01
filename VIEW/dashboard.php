@@ -103,7 +103,7 @@
                     <li><a href="travel_admin.php">Travel Admin</a></li>
                     <li><a href="admin_tracker.php">Admin tracker</a></li>
                     <li><a href="emp_tracker.php">Tracker App</a></li>
-                    <li><a href="vehicle.php">Vehicles</a></li>
+                    <li><a href="vehicles.php">Vehicles</a></li>
                     <li><a href="driver.php">Drivers</a></li>
                   </ul>
                 </li>
