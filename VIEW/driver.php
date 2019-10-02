@@ -48,19 +48,36 @@
       </thead>
       <tbody>
         <?php
-        $connect = new mysqli("localhost", "root", "", "ITP_HR");
-        $sql = "SELECT d.Availability, d.id, em.F_name ,ep.image FROM 'drivers' AS d , 'emp_profile' AS  ep , 'employee' AS em where (d.id = ep.emp_id and ep.emp_id = em.Emp_id)";
-        $result = mysqli_query($connect, $sql);
+    //    $connect = new mysqli("localhost", "root", "", "ITP_HR");
+        // $sql = "SELECT d.Availability, d.id, em.F_name ,ep.image FROM drivers d, emp_profile ep , employee em where (d.id = ep.emp_id AND d.id = em.Emp_id)";
+      //  $sql = "SELECT  d.Availability, d.id, em.F_name ,ep.image FROM 'drivers' AS d, 'emp_profile' AS ep, 'employee' AS em where (d.id = ep.emp_id AND d.id = em.Emp_id)";
+
+      $sql = "SELECT d.Availability
+  , d.id
+  , em.F_name
+  , ep.image
+   FROM drivers AS d
+   JOIN emp_profile AS ep ON d.id = ep.Emp_id
+   JOIN employee AS em ON d.id = em.Emp_id";
+
+
+        $result = mysqli_query($db, $sql);
+
+        if (!$result) {
+          printf("Error: %s\n", mysqli_error($db));
+          exit();
+      }
+
         // var_dump($result);
         while ($row =  mysqli_fetch_array($result)) {
-          $id = $row['d.id'];
-          $image = $row['ep.image'];
-          $name = $row['em.F_name'];
-          $Availability = $row['d.Availability'];
+          $id = $row['id'];
+          $image = $row['image'];
+          $name = $row['F_name'];
+          $Availability = $row['Availability'];
           ?>
           <tr>
              <td scope="row"><?= $id ?></td>
-            <td scope="row"> <img src='<?php echo $image;  ?>' alt="Vehicle1" width=120px height=80x></td>
+            <td scope="row"> <img src="data:image/jpeg;base64,<?php echo base64_encode($image); ?>"class="rounded-circle" alt="Cinque Terre" width=100px height=70px></td>
             <!-- <td scope="row"><!?= $Vehicle_type ?></td> -->
             <td scope="row"><?= $name ?></td>
             <td scope="row"><?= $Availability ?></td>
