@@ -30,31 +30,31 @@
             
               <?php
                   $connect = new mysqli("localhost", "root", "", "ITP_HR");  
-                  $sql = "SELECT *,employee.Emp_name FROM location_track,travel_request,employee where travel_request.Travel_id = location_track.Travel_id and travel_request.Emp_id =employee.Emp_id";
+                  $sql = "SELECT tr.Travel_id,em.F_name,lt.Time_sent,tr.Vehicle,lt.Link
+                   FROM location_track AS lt , travel_request AS tr,employee AS em 
+                   where tr.Travel_id = lt.Travel_id and tr.Emp_id =em.Emp_id";
+
                   $result= mysqli_query($connect,$sql);
                   // var_dump($result);
+                  if (!$result) {
+                    printf("Error: %s\n", mysqli_error($connect));
+                    exit();
+                }
+
                    while($row =  mysqli_fetch_array($result) ){
                       $Travel_id = $row['Travel_id'];
-                      $Emp_name =$row['Emp_name'];
-                      $Tto = $row['Time_sent'];
-                      $Status = $row['Vehicle'];
-                      $Status = $row['Link'];
-                      // $statusp =$row['Tstatus'];
+                      $F_name =$row['F_name'];
+                      $Time_sent = $row['Time_sent'];
+                      $Vehicle = $row['Vehicle'];
+                      $Link = $row['Link'];
                ?>
                   <tr>
                       <td scope="row"><?=$Travel_id?></td>
-                      <td scope="row"><?=$Emp_name?></td>
+                      <td scope="row"><?=$F_name?></td>
                       <td scope="row"><?=$Time_sent?></td>
                       <td scope="row"><?=$Vehicle?></td>
-                      <td scope="row"><?=$Link?></td>
-                      <td scope="row"><div class="form-group">
-                      <select class="form-control" id="sel1">
-                          <option>Approve</option>
-                          <option>Reject</option>
-                          <option>Pending</option>
-                        </select>
-                        </td>
-                  </tr>
+                      <td scope="row"><a href ="<?=$Link?>" target="_blank"> <?=$Link?></a></td>
+                      
                   </tbody>
                   <?php
               }
