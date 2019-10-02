@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-  title>Bootstrap Example</title>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -29,24 +29,9 @@
 
   <div class="container" role="main">
     <div class="jumbotron text-center" style="padding-top:40px; padding-bottom:0px; background-color: transparent;">
-      <h2>Vehicles</h2>
+      <h2>Vehicles Report</h2>
     </div>
     <br />
-    <div style="float:right">
-      <!-- <button type="button" class="btn btn-primary" style="padding:10px;margin-right:10px;padding-right:35px;padding-left:25px">Edit</button> -->
-     <?php
-      if($login_session==1002){ ?> <!--hardcoded for admin or not !-->
-         <!-- echo' <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>';    -->
-         <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>
-         <?php
-    }
-    else{ ?>
-    <input type="hidden" class="btn btn-danger" style="padding:10px" data-toggle="modal" data-target="#myModal">
-    <?php
-    }?>
-    
-      <br/><br/>
-    </div>
 
     <table class="table table-bordered table-hover">
       <thead>
@@ -73,21 +58,25 @@
           $v_id = $row['v_id'];
           ?>
           <tr>
-            <td scope="row"> <img src="data:image/jpeg;base64,<?php echo base64_encode($img_vehicle); ?>"class="rounded-circle" alt="Cinque Terre" width=120px height=80x></td>
+            <td scope="row"> <img src='<?php echo $img_vehicle;  ?>' alt="Vehicle1" width=120px height=80x></td>
             <td scope="row"><?= $Vehicle_type ?></td>
             <td scope="row"><?= $Availabiblity ?></td>
             <td scope="row"><?= $Reg_no ?></td>
             <!-- <td scope="row"><!?= $statusp ?></td> -->
-            <!-- <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<?= $trav_idp ?>" onclick="">View</button></td> -->
+            <!-- <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<!?= $trav_idp ?>" onclick="">View</button></td> -->
           </tr>
       </tbody>
-    <?php
-    }
-    ?>
-    </tbody>
     </table>
-
-   
+    <?php
+      }
+    ?>
+   <button onclick="printFunction()" id="cmd" class="btn btn-primary" style="padding:10px">Print this Document</button>
+    <script>
+        function printFunction() {
+        document.getElementById('cmd').style.visibility='hidden';
+        window.print();
+            }
+    </script>
 </body>
 
 </html>

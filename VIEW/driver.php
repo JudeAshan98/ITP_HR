@@ -53,12 +53,12 @@
       //  $sql = "SELECT  d.Availability, d.id, em.F_name ,ep.image FROM 'drivers' AS d, 'emp_profile' AS ep, 'employee' AS em where (d.id = ep.emp_id AND d.id = em.Emp_id)";
 
       $sql = "SELECT d.Availability
-  , d.id
-  , em.F_name
-  , ep.image
-   FROM drivers AS d
-   JOIN emp_profile AS ep ON d.id = ep.Emp_id
-   JOIN employee AS em ON d.id = em.Emp_id";
+          , d.id
+          , em.F_name
+          , ep.image
+          FROM drivers AS d
+          JOIN emp_profile AS ep ON d.id = ep.Emp_id
+          JOIN employee AS em ON d.id = em.Emp_id";
 
 
         $result = mysqli_query($db, $sql);

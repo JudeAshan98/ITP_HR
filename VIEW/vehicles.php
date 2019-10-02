@@ -39,13 +39,18 @@
       if ($login_session == 1002) { ?>
         <!--hardcoded for admin or not !-->
         <!-- echo' <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>';    -->
+        <button type="button" class="btn btn-primary" style="padding:10px" onclick="myFunction()">Get Report</button>
         <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>
       <?php
       } else { ?>
         <input type="hidden" class="btn btn-danger" style="padding:10px" data-toggle="modal" data-target="#myModal">
       <?php
       } ?>
-
+  <script>
+    function myFunction() {
+        window.open("http://localhost/ITP_HR/VIEW/vehicles_report.php");
+    }
+  </script>
       <br /><br />
     </div>
 
@@ -79,7 +84,7 @@
             <td scope="row"><?= $Availabiblity ?></td>
             <td scope="row"><?= $Reg_no ?></td>
             <!-- <td scope="row"><!?= $statusp ?></td> -->
-            <!-- <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<?= $trav_idp ?>" onclick="">View</button></td> -->
+            <!-- <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<!?= $trav_idp ?>" onclick="">View</button></td> -->
           </tr>
       </tbody>
     <?php
@@ -162,6 +167,7 @@
           </div>
         </div>
       </div>
+      
     </div>
 </body>
 
