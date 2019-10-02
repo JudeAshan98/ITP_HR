@@ -1,5 +1,9 @@
 <?php
    include('session.php');
+    // include("session.php");
+ 
+         
+        
 ?>
 
 <!DOCTYPE html>
@@ -94,36 +98,7 @@
     </table>
 
 
-    <?php
-    // include("session.php");
-         $connect = new mysqli("localhost", "root", "", "ITP_HR");
-        if(isset($_POST['but_upload'])){
-        
-          $name = $_FILES['file']['name'];
-          $target_dir = "../IMG/vehicles/";
-          $target_file = $target_dir . basename($_FILES["file"]["name"]);
-
-          $Vehicle_type = $_POST['Vehicle_type'];
-          $Reg_no       = $_POST['Reg_no'];
-
-          // Select file type
-          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-          // Valid file extensions
-          $extensions_arr = array("jpg","jpeg","png","gif");
-
-          // Check extension
-          if( in_array($imageFileType,$extensions_arr) ){
-      
-            $sql = "insert into vehicles(Vehicle_type,Reg_no,img_vehicle) values('$Vehicle_type',$Reg_no','".$name."')";
-
-            mysqli_query($connect,$sql);
-            
-            // Upload file
-            move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
-      }
-    }
-?>
+    
 
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
@@ -135,7 +110,7 @@
             <h2 class="modal-title">Add a new Vehicle</h2>
           </div>
           <div class="modal-body">
-          <form method="post" action="" enctype='multipart/form-data'>
+          <form method="post" action="http://localhost/itp_hr/VIEW/vehicle_upload_img.php" enctype='multipart/form-data'>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="Vehicle_type">Vehicle Type</label>
