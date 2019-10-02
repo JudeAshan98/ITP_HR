@@ -6,35 +6,40 @@
 <title>image upload</title>
 </head>
 </body>
-    <?php
-        $connect = new mysqli("localhost", "root", "", "ITP_HR"); 
-        if(isset($_POST['btn'])){
-            $name1 = $_FILES['myfile']['name'];
-            $type1 =$_FILES['myfile']['type'];
-          $data1 = base64_encode(file_get_contents($_FILES['myfile']['tmp_name']));
-          $sql = "INSERT INTO img (name,mime,data)values('$name1','$type1','$data1')";
+<?php
+        include("session.php");
 
-        //   $stmt->bind_param(1,$name);
-        //   $stmt->bindParam(2,$type);
-        //   $stmt->bindParam(3,$data);
-        //   $stmt->execute();
-        if($connect-> query($sql))
-        {
-            //echo "New record is inserted sucessfully";
-         //   header("refresh:1; url=dashboard.php");
+        if(isset($_POST['but_upload'])){
+        
+        $name = $_FILES['file']['name'];
+        $target_dir = "../img/vehicles/";
+        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+        // Select file type
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+        // Valid file extensions
+        $extensions_arr = array("jpg","jpeg","png","gif");
+
+        // Check extension
+        if( in_array($imageFileType,$extensions_arr) ){
+        
+            // Insert record
+            $query = "insert into imag(name) values('".$name."')";
+            mysqli_query($db,$query);
+        
+            // Upload file
+            move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
+
         }
-        else{
-            echo "Error: " . $sql . "<br>" . $connect->error;
+        
         }
+        ?>
 
-        }
-    ?>
-
-    <form method="POST" enctype="multipart/form-data">
-           <input type="file" name ="myfile">
-           <button name="btn">Upload</button> 
-    </form>
-
+        <form method="post" action="" enctype='multipart/form-data'>
+        <input type='file' name='file' />
+        <input type='submit' value='Save name' name='but_upload'>
+        </form>
 
 </body>
 </html>

@@ -74,7 +74,7 @@
           $v_id = $row['v_id'];
           ?>
           <tr>
-            <td scope="row"> <img src="data:image/jpeg;base64,<?php echo base64_encode($img_vehicle); ?>" class="rounded-circle" alt="Cinque Terre" width=120px height=80x></td>
+            <td scope="row"> <img src='<?php echo $img_vehicle;  ?>' alt="Vehicle1" width=120px height=80x></td>
             <td scope="row"><?= $Vehicle_type ?></td>
             <td scope="row"><?= $Availabiblity ?></td>
             <td scope="row"><?= $Reg_no ?></td>
@@ -90,25 +90,34 @@
 
 
     <?php
-   $connect = new mysqli("localhost", "root", "", "ITP_HR"); 
-   if(isset($_POST['btn'])){
+    // include("session.php");
+         $connect = new mysqli("localhost", "root", "", "ITP_HR");
+        if(isset($_POST['but_upload'])){
+        
+          $name = $_FILES['file']['name'];
+          $target_dir = "../IMG/vehicles/";
+          $target_file = $target_dir . basename($_FILES["file"]["name"]);
 
-      $Vehicle_type = $_POST ['Vehicle_type'];
-      $Reg_no =$_POST ['Reg_no'];
-       $name1 = $_FILES['myfile']['name'];
-       $type1 =$_FILES['myfile']['type'];
-     $data1 = file_get_contents($_FILES['myfile']['tmp_name']);
-     $sql = "INSERT INTO vehicles (Vehicle_type,Reg_no,name_img,mime,img_vehicle)values('$Vehicle_type',$Reg_no','$name1','$type1','$data1')";
+          $Vehicle_type = $_POST['Vehicle_type'];
+          $Reg_no       = $_POST['Reg_no'];
 
-     if($connect-> query($sql))
-        {
-            echo "New record is inserted sucessfully";
-         //   header("refresh:1; url=dashboard.php");
-        }
-        else{
-            echo "Error: " . $sql . "<br>" . $connect->error;
-        }
+          // Select file type
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+          // Valid file extensions
+          $extensions_arr = array("jpg","jpeg","png","gif");
+
+          // Check extension
+          if( in_array($imageFileType,$extensions_arr) ){
+      
+            $sql = "insert into vehicles(Vehicle_type,Reg_no,img_vehicle) values('$Vehicle_type',$Reg_no','".$name."')";
+
+            mysqli_query($connect,$sql);
+            
+            // Upload file
+            move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
       }
+    }
 ?>
 
     <div class="modal fade" id="myModal" role="dialog">
@@ -121,9 +130,9 @@
             <h2 class="modal-title">Add a new Vehicle</h2>
           </div>
           <div class="modal-body">
-          <form action="" method="POST" enctype="multipart/form-data">
+          <form method="post" action="" enctype='multipart/form-data'>
               <div class="form-row">
-                <div class="form-group col-md-6"><input type="hidden" name="Emp_id" value=<?= $login_session ?>>
+                <div class="form-group col-md-6">
                   <label for="Vehicle_type">Vehicle Type</label>
                   <input type="text" class="form-control" id="inputFrom" placeholder="Vehicle Type" name="Vehicle_type" required>
                 </div>
@@ -135,14 +144,14 @@
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="img_vehicle">Add image</label>
-                  <div class="form-group">
-                    <input type="file" name="myfile"  class="form-control-file" id="exampleFormControlFile1">
-                  </div>
+                  <!-- <div class="form-group"> -->
+                    <input type="file" value='Save name' name="file"/>
+                  <!-- </div> -->
               </div>
               </div>     
               <div class="form-row">
                 <div class="form-group col-md-6">    
-                  <button type="submit" class="btn btn-primary" name="btn">+ Add Vehicle</button>
+                  <button type="submit" class="btn btn-primary" name="but_upload">+ Add Vehicle</button>
                   <button type="reset" class="btn btn-primary">Clear</button>
                 </div>
               </div>  
@@ -154,20 +163,6 @@
         </div>
       </div>
     </div>
-
-    <script>
-      function validateForm() {
-        var startDate = document.getElementById("Tdate").value;
-        var endDate = document.getElementById("Edate").value;
-        console.log("Edate");
-        if ((Date.parse(endDate) <= Date.parse(startDate))) {
-          alert("End date should be greater than Start date");
-          document.getElementById("inputEndDate").value = "";
-        }
-
-
-      }
-    </script>
 </body>
 
 </html>
