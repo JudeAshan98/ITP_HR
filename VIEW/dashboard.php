@@ -1,8 +1,9 @@
 <?php
-   include('session.php');
+include('session.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <!-- Meta, title, CSS, favicons, etc. -->
@@ -15,7 +16,7 @@
   <!--End B4-->
   <title>CAL HRM System</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
   <!-- NProgress -->
   <link href="../css/nprogress.css" rel="stylesheet">
   <!-- iCheck -->
@@ -28,11 +29,45 @@
   <!-- Custom Theme Style -->
   <link href="../css/custom.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
+
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  
+
+
+  <!-- graphs for dashboard  starts-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Year', 'Sales', 'Expenses'],
+        ['2004', 1000, 400],
+        ['2005', 1170, 460],
+        ['2006', 660, 1120],
+        ['2007', 1030, 540]
+      ]);
+
+      var options = {
+        title: 'Company Performance',
+        curveType: 'function',
+        legend: {
+          position: 'bottom'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+      chart.draw(data, options);
+    }
+  </script>
+
+  <!-- graphs for dashboard  Ends-->
+
 </head>
 
 <body class="nav-md">
@@ -58,11 +93,11 @@
                     <li><a href="index.html">Dashboard</a></li>
                   </ul>
                 </li>
-                <li><a><i class="fa fa-users"></i> Workfoce  Management<span class="fa fa-chevron-down"></span></a>
+                <li><a><i class="fa fa-users"></i> Workfoce Management<span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="EManagement.php">Employee Management</a></li>
                     <li><a href="PerformanceReport.php">Performance Report</a></li>
-                   <li><a href="EmployeeProfile.php">Add Employee</a></li>
+                    <li><a href="EmployeeProfile.php">Add Employee</a></li>
                     <!-- <li><a href="form_wizards.html">Form Wizard</a></li>
                     <li><a href="form_upload.html">Form Upload</a></li>
                     <li><a href="form_buttons.html">Form Buttons</a></li>-->
@@ -72,14 +107,14 @@
                   <ul class="nav child_menu">
                     <li><a href="PerformanceMain.php">My Performance</a></li>
                     <li><a href="TeamPerformance.php">Team Performance</a></li>
-                   <!-- <li><a href="typography.html"></a></li-->
-  
+                    <!-- <li><a href="typography.html"></a></li-->
+
                   </ul>
                 </li>
                 <li><a><i class="fa fa-table"></i> Time Management <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="time_management.php">Timesheet</a></li>
-                   <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                    <li><a href="tables_dynamic.html">Table Dynamic</a></li>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-balance-scale"></i> Finance Management <span class="fa fa-chevron-down"></span></a>
@@ -116,12 +151,12 @@
                 <li><a><i class="fa fa-medkit "></i> Incident Management <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="Incident.php">Add Incident</a></li>
-                   <!-- <li><a href="AdminLeave.php">adminLeave Footer</a></li>-->
+                    <!-- <li><a href="AdminLeave.php">adminLeave Footer</a></li>-->
                   </ul>
                 </li>
               </ul>
             </div>
-          
+
           </div>
           <!-- /sidebar menu -->
 
@@ -146,8 +181,8 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($imagedp); ?>"class="rounded-circle" alt="Cinque Terre" width=100px height=100px>
-                  <?=$login_name?>
+                  <img src="data:image/jpeg;base64,<?php echo base64_encode($imagedp); ?>" class="rounded-circle" alt="Cinque Terre" width=100px height=100px>
+                  <?= $login_name ?>
                   <span class="fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -196,49 +231,71 @@
         <div class="row tile_count">
           <!--?php include ("Transport_manage.php") ?-->
           <!--CONTENT GOES HERE-->
-          <div id="content1">The page will display here</div>
-          <p id="demo"></p>
-            <!--s-->
-            <script>
-              function myFunction(){
-                document.getElementById("myCheck").click();
-                var URL = "http://localhost:8080/itp_hr/VIEW/dashboard.php" 
-                window.location.href = URL;
-              }
-            </script>
-            <script>
-              function lgFunction(){
-                document.getElementById("logout").click();
-                var URL = "http://localhost:8080/itp_hr/VIEW/logout.php" 
-                window.location.href = URL;
-              }
-            </script>
+          <div id="content1">
+            <div class="container">
+            <div class="col-md-6" id="curve_chart" style="max-width: 700px; height: 400px; margin-top:30px"></div>
 
-            <script>
-              $(document).ready(function() {
-            //    var x = document.getElementById('myCheck').value;
-              //   var y = document.getElementById('logout').value;
-              $('a').click(function(e) {  
-                          
-              e.preventDefault();
-              $("#content1").load($(this).attr('href'));
-              });
-              });
-            </script>
-      <!--ss-->
-        </div>
+            <!-- <div id="chart_div" style="width: 400px; height: 300px;float:right;margin-top:-340px"></div> -->
+            <div class="col-md-6" id="piechart" style="max-width: 500px; max-height: 300px;"></div>
+            
+            </div>
+            <div class="container">
+            <br /><br /><br />
+            <div class="btn-group-lg" role="group" aria-label="Third group">
+              <!-- <a href="http://localhost:80/itp_hr/VIEW/EManagement.php" role="button" class="btn btn-primary ">Register an Emplyee</a> -->
+              <a href="http://localhost:80/itp_hr/VIEW/PerformanceMain.php" role="button" class="btn btn-primary ">My KPIs</a>
+              <a href="http://localhost:80/itp_hr/VIEW/Transport_manage.php" role="button" class="btn btn-primary ">Travel Request</a>
+              <a href="http://localhost:80/itp_hr/VIEW/LeaveInquery.php" role="button" class="btn btn-primary ">Leave Inquery</a>
+              <a href="http://localhost:80/itp_hr/VIEW/time_management.php" role="button" class="btn btn-primary ">Timesheet</a>
+            </div>
+            </div>
+          </div>
+   
+
       </div>
-      <!-- /page content -->
+      <p id="demo"></p>
+      <!--s-->
+      <script>
+        function myFunction() {
+          document.getElementById("myCheck").click();
+          var URL = "http://localhost:8080/itp_hr/VIEW/dashboard.php"
+          window.location.href = URL;
+        }
+      </script>
+      <script>
+        function lgFunction() {
+          document.getElementById("logout").click();
+          var URL = "http://localhost:8080/itp_hr/VIEW/logout.php"
+          window.location.href = URL;
+        }
+      </script>
 
-      <!-- footer content -->
-      <footer>
-        <div class="pull-right">
-        <!--   Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>-->
-        </div>
-        <div class="clearfix"></div>
-      </footer>
-      <!-- /footer content -->
+      <script>
+        $(document).ready(function() {
+          //    var x = document.getElementById('myCheck').value;
+          //   var y = document.getElementById('logout').value;
+          $('a').click(function(e) {
+
+            e.preventDefault();
+            // $(".#content").hide();
+            $("#content1").load($(this).attr('href'));
+          });
+        });
+      </script>
+      <!--ss-->
     </div>
+  </div>
+  <!-- /page content -->
+
+  <!-- footer content -->
+  <footer>
+    <div class="pull-right">
+      <!--   Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>-->
+    </div>
+    <div class="clearfix"></div>
+  </footer>
+  <!-- /footer content -->
+  </div>
   </div>
 
 
@@ -281,7 +338,47 @@
   <!--script src="../vendors/moment/min/moment.min.js"></script>
   <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script-->
   <!-- Custom Theme Scripts -->
-  
+
   <script src="../js/custom.min.js"></script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Month', 'Emp per month'],
+        ['January', 8],
+        ['February', 2],
+        ['march', 4],
+        ['April', 2],
+        ['May', 8],
+        ['June', 8],
+        ['July', 2],
+        ['August', 4],
+        ['September', 2],
+        ['October', 8],
+        ['November', 2],
+        ['December', 8],
+      ]);
+
+      // Optional; add a title and set the width and height of the chart
+      var options = {
+        'title': 'New Employees in this year',
+        'width': 550,
+        'height': 400
+      };
+
+      // Display the chart inside the <div> element with id="piechart"
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      chart.draw(data, options);
+    }
+  </script>
 </body>
+
 </html>

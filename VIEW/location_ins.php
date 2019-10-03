@@ -5,10 +5,11 @@ $lat = $_POST['lat'];
 
 $link = 'https://www.google.com/maps/@'.$lng.','.$lat;
 $date = date("Y-m-d");
-$timea=date(" h:i:s");
+date_default_timezone_set("Asia/Colombo");
+$timea=date("Y-m-d h:i:s A");
 
   $connect = new mysqli("localhost", "root", "", "ITP_HR");  
-   $sql="SELECT  Travel_id FROM travel_request WHERE Tstatus = 'Approved' LIMIT 1";
+   $sql="SELECT  Travel_id FROM travel_request WHERE Tstatus = 'Approved' TOP 1 ORDER BY ";
 
    $result= mysqli_query($connect,$sql);
                    var_dump($result);

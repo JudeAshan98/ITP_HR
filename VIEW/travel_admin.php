@@ -61,14 +61,16 @@
           </form>
       <script>
         function setUpdateAction() {
+          if(confirm("Are you sure want to Accept these Travel requests?")) {
             document.frmUser.action = "accept_travel.php";
             document.frmUser.submit();
+        }
         }
       </script>
 
         <script>
           function setDeleteAction() {
-          if(confirm("Are you sure want to delete these rows?")) {
+          if(confirm("Are you sure want to Reject these Travel requests?")) {
           document.frmUser.action = "Reject_travel.php";
           document.frmUser.submit();
           }
