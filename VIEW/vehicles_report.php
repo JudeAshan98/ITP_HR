@@ -66,10 +66,11 @@
             <!-- <td scope="row"><button type="button" class="btn btn-success btn-view-transport" id="" data-id="<!?= $trav_idp ?>" onclick="">View</button></td> -->
           </tr>
       </tbody>
-    </table>
-    <?php
+      <?php
       }
     ?>
+    </table>
+    
    <button onclick="printFunction()" id="cmd" class="btn btn-primary" style="padding:10px">Print this Document</button>
     <script>
         function printFunction() {
