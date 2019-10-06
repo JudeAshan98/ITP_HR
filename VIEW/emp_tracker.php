@@ -31,8 +31,14 @@
     </div>
     <br/>
     <p id="map"></p>
-    <button type="button" id="share-location" data-coor="" class="btn btn-primary" style="padding:10px">Send Current Location</button>
+    <!-- <button type="button" id="share-location" data-coor="" class="btn btn-primary" style="padding:10px">Send Current Location</button> -->
     <!-- <button type="button" class="btn btn-danger" style="padding:10px" >Reject</button> -->
+    <div class="alert alert-info" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+  Note : click your current location icon & Press ok
+</div>
+
 </div>
 </body>
 </html>

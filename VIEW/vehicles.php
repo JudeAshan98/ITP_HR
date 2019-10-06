@@ -52,7 +52,7 @@
       } ?>
   <script>
     function myFunction() {
-        window.open("http://localhost/ITP_HR/VIEW/vehicles_report.php");
+        window.open("http://localhost:8080/ITP_HR/VIEW/vehicles_report.php");
     }
   </script>
       <br /><br />
@@ -110,7 +110,7 @@
             <h2 class="modal-title">Add a new Vehicle</h2>
           </div>
           <div class="modal-body">
-          <form method="post" action="http://localhost/itp_hr/VIEW/vehicle_upload_img.php" enctype='multipart/form-data'>
+          <form method="post" action="http://localhost:8080/itp_hr/VIEW/vehicle_upload_img.php" enctype='multipart/form-data'>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="Vehicle_type">Vehicle Type</label>

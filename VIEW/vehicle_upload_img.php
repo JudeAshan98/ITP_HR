@@ -28,7 +28,7 @@ echo  "test0";
             // Upload file
             move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
 
-            header("http://localhost/ITP_HR/VIEW/dashboard.php");
+            header("refresh:1; url=dashboard.php");
       }
     }
 

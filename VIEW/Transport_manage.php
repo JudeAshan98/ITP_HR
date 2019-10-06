@@ -22,7 +22,11 @@
   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
   <!-- <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script> -->
   <!--sample-->
-
+  <script>
+    function myFunction() {
+      window.open("http://localhost:8080/ITP_HR/VIEW/travel_report.php");
+    }
+  </script>
 </head>
 
 <body>
@@ -33,7 +37,7 @@
     </div>
     <br /><br /><br />
     <div style="float:right">
-      <!-- <button type="button" class="btn btn-primary" style="padding:10px;margin-right:10px;padding-right:35px;padding-left:25px">Edit</button> -->
+      <button type="button" class="btn btn-primary" style="padding:10px;margin-right:10px;padding-right:35px;padding-left:25px"onclick="myFunction()">Print Report</button>
       <button type="button" class="btn btn-primary" style="padding:10px" data-toggle="modal" data-target="#myModal">+ Add New</button>
       <br /><br />
     </div>
@@ -77,22 +81,7 @@
     </tbody>
     </table>
 
-    <script>
-      $(document).ready(function() {
-        $(document).on('click', ".btn-view-transport", function() {
-          var id = $(this).data('id');
-          $.ajax({
-           url: "test.php?id=" + id,
-           methos: 'GET',
-            success: function(result) {
-             //  event.preventDefault();
-              $('#BtnModal').modal('show');
-            }
-          });
-
-        });
-      });
-    </script>
+    
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
 
@@ -163,15 +152,40 @@
                   <label for="inputEmail4">Vehicle</label>
                   <select id="inputState" class="form-control" name="Vehicle" required>
                     <!-- <option selected>Choose...</option> -->
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                    <?php
+                                    $res=mysqli_query($connect,'SELECT * FROM vehicles where Availabiblity="Available"');
+                                    while($row=mysqli_fetch_array($res)){
+                                        
+                                    ?>
+                                    <option>
+                                    <?php echo $row["v_id"]?>
+                                    </option>
+                                    <?php
+                                    }
+                                    ?>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Driver</label>
+                  <select id="inputState" class="form-control" name="driver_id" required>
+                    <!-- <option selected>Choose...</option> -->
+                    <?php
+                                    $res=mysqli_query($connect,'SELECT * FROM drivers where Availability="Available"');
+                                    while($row=mysqli_fetch_array($res)){
+                                        
+                                    ?>
+                                    <option>
+                                    <?php echo $row["id"]?>
+                                    </option>
+                                    <?php
+                                    }
+                                    ?>
                   </select>
                 </div>
               </div>
 
               <div class="form-row">
-                <div class="form-group col-md-">
+                <div class="form-group col-md-6">
                   <label for="inputCity">Notes</label>
                   <textarea class="form-control" id="inputCity" name="description"></textarea>
                 </div>
@@ -202,71 +216,50 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="inputEmail4">Travel From</label>
-                  <input type="text" class="form-control" id="inputFrom" placeholder="Location" name="Tfrom" value="<?=$row[1]?>">
+                  <input type="text" disabled class="form-control Tfrom" id="inputFrom" placeholder="Location" name="Tfrom"  value="<?=$row[1]?>">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword4">Travel To</label>
-                  <input type="text" class="form-control" id="inputTo" placeholder="Location" name="Tto" value="<?=$Tto?>">
+                  <input type="text" disabled class="form-control Tto" id="inputFrom" id="inputTo" placeholder="Location" name="Tto" value="<?=$Tto?>">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputFromDate">Travel Date</label>
-                  <!-- <div class='input-group date' id='datetimepicker1' >
-                                  <input type='text' class="form-control" name="Tdate">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                   $(function () {
-                                        $('#datetimepicker1').datetimepicker();
-                                      });
-                                </script>
-                            </div>    -->
-                  <input type="date" class="form-control" name="Tdate" value="<?=$Tdate?>">
+                  <label for="inputFromDate">Start Date</label>
+                  <input type="text" disabled class="form-control Tdate" id="inputFrom" name="Tdate" value="<?=$row[3]?>">
+                  
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="inputFromDate">Travel Date</label>
-                  <!-- <div class='input-group date' id='datetimepicker2' >
-                                  <input type='text' class="form-control" name="EndDate">
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                <script type="text/javascript">
-                                   $(function () {
-                                        $('#datetimepicker2').datetimepicker();
-                                      });
-                                </script>
-                            </div>  -->
-                  <input type="date" class="form-control" name="EndDate" value="<?=$EndDate?>">
+                  <label for="inputFromDate">End Date</label>
+                  <input type="date" disabled class="form-control EndDate" id="inputFrom" name="EndDate" value="<?=$EndDate?>">
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="inputEmail4">Prority</label>
-                  <select id="inputState" class="form-control" name="priority">
-                    <option selected><?=$priority?></option>
+                  <!-- <select id="inputState" class="form-control" name="priority" value="<!?=$EndDate?>">
+                    <option selected><!?=$priority?></option>
 
-                  </select>
+                  </select> -->
+                  <input type="text" disabled class="form-control priority" name="priority" value="<?=$priority?>">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputEmail4">Vehicle</label>
-                  <select id="inputState" class="form-control" name="Vehicle">
-                    <option selected><?=$Vehicle?></option>
-                  </select>
+                  <!-- <select id="inputState" class="form-control" name="Vehicle">
+                    <option selected><!?=$Vehicle?></option>
+                  </select> -->
+                  <input type="text" disabled class="form-control Vehicle" name="Vehicle" value="<?=$Vehicle?>">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-">
                   <label for="inputCity">Notes</label>
-                  <textarea class="form-control" id="inputCity" name="description" value="<?=$description?>"></textarea>
+                  <input type="textarea" disabled class="form-control description"  id="inptFrom" name="description" value="<?=$description?>"></textarea>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary">Update</button>
+              <!-- <button type="submit" class="btn btn-primary">Update</button> -->
               <!-- <button type="reset" class="btn btn-primary">Clear</button> -->
             </form>
           </div>
@@ -292,6 +285,44 @@
     }
 
   </script>
+
+<script>
+      $(document).ready(function() {
+        $(document).on('click', ".btn-view-transport", function() {
+          var id = $(this).data('id');
+          $.ajax({
+           url: "view_travel.php?id=" + id,
+           methos: 'GET',
+            success: function(result) {
+             //  event.preventDefault();
+             if(result){
+              result = JSON.parse(result);
+              console.log(result);
+
+              $('#BtnModal .Tfrom').val('');
+              $('#BtnModal .Tfrom').val(result.Tfrom);
+              $('#BtnModal .Tto').val('');
+              $('#BtnModal .Tto').val(result.Tto);
+              $('#BtnModal .Tdate').val('');
+              $('#BtnModal .Tdate').val(result.TDate);
+              $('#BtnModal .EndDate').val('');
+              $('#BtnModal .EndDate').val(result.EndDate);
+              $('#BtnModal .priority').val('');
+              $('#BtnModal .priority').val(result.priority);
+              $('#BtnModal .Vehicle').val('');
+              $('#BtnModal .Vehicle').val(result.Vehicle);
+              $('#BtnModal .description').val('');
+              $('#BtnModal .description').val(result.description);
+
+                $('#BtnModal').modal('show');
+
+              }
+           }
+          });
+
+        });
+      });
+    </script>
 </body>
 
 </html>

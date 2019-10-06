@@ -1,48 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Leave Tracker</title>
-    
-  <script>
-    function myFunction1() {
-        window.open("http://localhost:8080/ITP_HR/VIEW/admin_track_rpt.php");
-    }
-  </script>
+    <title>Admin Tracker</title>
+
+      <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 <body>
 <div class="container" role= "main">
     <div class="jumbotron text-center"style="padding-top:40px; padding-bottom:0px; background-color: transparent;" >
-        <h2>Admin Tracker</h2>
+        <h2>Admin Tracker Report</h2>
     </div>
     <br/><br/><br/>
       <div style="float:right">
-          <button type="button" class="btn btn-primary" style="padding:10px" onclick="myFunction1()">Get Report</button>
+      <button type="button" id="cmd"  class="btn btn-primary" style="padding:10px;margin-right:10px;padding-right:35px;padding-left:25px" onclick="printFunction()">Print</button>
           <!-- <button type="button" class="btn btn-danger" style="padding:10px" >Reject</button> -->
-           <br/><br/>
-      </div>
-      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Travel ID.." title="Type in a kpi">
-  
-  <script>
-      function myFunction() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
+          <br/><br/>
+      </div> 
+      <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Travel ID.." title="Type in a kpi"> -->
+
+    <script>
+        function printFunction() {
+        document.getElementById('cmd').style.visibility='hidden';
+        window.print();
             }
-          }       
-        }
-      }
-  </script>
-            
+    </script>
+    
       <table class="table table-bordered table-hover" id="myTable">
             <thead>
               <tr>

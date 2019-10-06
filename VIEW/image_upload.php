@@ -12,7 +12,7 @@
         if(isset($_POST['but_upload'])){
         
         $name = $_FILES['file']['name'];
-        $target_dir = "../img/vehicles/";
+        $target_dir = "../img/emp_profile/";
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
 
         // Select file type
