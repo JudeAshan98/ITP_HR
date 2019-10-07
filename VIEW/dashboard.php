@@ -114,7 +114,7 @@ include('session.php');
                 <li><a><i class="fa fa-table"></i> Time Management <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="time_management.php">Timesheet</a></li>
-                    <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                    <!-- <li><a href="tables_dynamic.html">Table Dynamic</a></li> -->
                   </ul>
                 </li>
                 <li><a><i class="fa fa-balance-scale"></i> Finance Management <span class="fa fa-chevron-down"></span></a>
@@ -128,8 +128,8 @@ include('session.php');
                 </li>
                 <li><a><i class="fa fa-edit"></i>Recruitment <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                    <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                    <!-- <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li> -->
+                    <!-- <li><a href="fixed_footer.html">Fixed Footer</a></li> -->
                   </ul>
                 </li>
                 <li><a><i class="fa fa-car"></i>Travel Management <span class="fa fa-chevron-down"></span></a>
@@ -151,7 +151,7 @@ include('session.php');
                 <li><a><i class="fa fa-medkit "></i> Incident Management <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="Incident.php">Add Incident</a></li>
-                    <li><a href="Admin_Incidents.php">Add Incident</a></li>
+                    <li><a href="Admin_Incidents.php">Incident Admin</a></li>
                     <!-- <li><a href="AdminLeave.php">adminLeave Footer</a></li>-->
                   </ul>
                 </li>

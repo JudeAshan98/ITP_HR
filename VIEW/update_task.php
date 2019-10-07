@@ -8,7 +8,7 @@
 
     $connect = new mysqli("localhost", "root", "", "ITP_HR");  
 
-  $sql= UPDATE kpi SET Notes =$Notes,Rating=$Rating where kpi_id=$kpi_id;
+  // $sql= UPDATE kpi SET Notes =$Notes,Rating=$Rating where kpi_id=$kpi_id;
 
     if ($connect->query($sql) === TRUE) {
         header("refresh:1; url=dashboard.php");
