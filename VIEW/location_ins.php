@@ -20,7 +20,7 @@ $timea=date("Y-m-d h:i:s A");
                     
 
    // $loc  = $_POST['Duckburg'];
-    // echo $Travel_id1;
+    // echo $Travel_id1
 
    // echo($loc1);
 
