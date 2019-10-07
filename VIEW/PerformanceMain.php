@@ -1,15 +1,27 @@
+
+<?php
+     include('session.php');
+    $link=mysqli_connect("localhost","root","","ITP_HR");
+   // mysqli_select_db($link,"ITP_HR");
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>Performance Management</title>
+    
     <!-- <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
-
+  <script>
+function openWin() {
+  window.open("http://localhost/ITP_HR/VIEW/printmytask.php");
+}
+</script>
 </head>
 
 <body>
@@ -19,10 +31,14 @@
 
         </div>
 
-        <div style="margin-left: 10px;margin-top:10px" ;>
+        <div style="margin-left: 10px;margin-top:10px">
             <button type="button" class="btn btn-primary">My Performance</button>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='TeamPerformance.php'">Team
+            <button type="button" class="btn btn-primary" id ="test" a href='TeamPerformance.php'>Team
                 Performance</button>
+                
+
+        
+
         </div>
         <div style="margin-left: 10px; margin-top: 60px" ;>
             <img src="../IMG/mainimg.jpg" class="rounded-circle" alt="Cinque Terre">
@@ -48,7 +64,7 @@
   // $i = 0;
   
   $connect = new mysqli("localhost", "root", "", "ITP_HR");  
-  $sql = "SELECT kpi_id,kpi_name,rating FROM kpi"; 
+  $sql = "SELECT kpi_id,kpi_name,rating FROM kpi where Emp_id=$login_session"; 
   $result=mysqli_query($connect,$sql);
 //   var_dump($result);
   while($row =  mysqli_fetch_array($result) ){
@@ -63,8 +79,8 @@
 
 
                 <tr>
-                    <td scope="row"> <button type="button" class="btn btn-outline-info" class="btn btn-primary"
-                            onclick="window.location.href='Task.php'"><?=$kpi_idp?></button></td>
+                    <td scope="row"> <button type="button" class="btn btn-outline-info" class="btn btn-primary">
+                    <a href=<?="Task.php?id=".$row['kpi_id']?>><?=$kpi_idp?></button></td>
                     <td scope="row"><?=$kpi_namep?></td>
                     <td scope="row">
                         <div style="margin-left: 10px; margin-top:10px" class="progress">
@@ -113,33 +129,45 @@
                             <label for="inputTask">Task</label>
                             <input type="text" class="form-control" name="Description" id="inputTask" required>
                         </div>
-                        <div class="form-row">
+                        <!--div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputWeightage">Weightage</label>
                                 <input type="number" class="form-control" name="Weight" id="inputWeightage" required>
-                            </div>
+                            </div-->
                             <div class="form-group col-md-4">
                                 <label for="inputEmp">Employee</label>
-                                <select id="inputEmp" name="Employee" class="form-control" required>
-                                    <option></option>
-                                    <option>email</option>
-                                    <option>...</option>
+                                <select id="inputEmp" name="Emp_id" class="form-control" >required>
+                                    <?php
+                                    $res=mysqli_query($link,"SELECT Emp_id FROM employee where D_id=(select D_id from employee where Emp_id=$login_session)");
+                                    while($row=mysqli_fetch_array($res)){
+                                        
+                                    ?>
+                                    <option>
+                                    <?php echo $row["Emp_id"]?>
+                                    </option>
+                                    <?php
+                                    }
+                                    ?>
+                                    
+                                    
                                 </select>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Create</button>
                             </div>
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Create</button>
+                       
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                
             </div>
-
+</div>
         </div>
     </div>
-
+    <form>
+  <input type="button" class="btn btn-primary"value="Print" onclick="openWin()">
+</form>
     <script>
     function validateForm() {
         var startDate = document.getElementById("inputStartDate").value;
@@ -152,7 +180,28 @@
 
 
     }
+  
     </script>
+                <script>
+              $(document).ready(function() {
+                  $('#test').click(function(e) {  
+                  e.preventDefault();
+              $("#content1").load($(this).attr('href'));
+              });
+              });
+            </script>
+
+<script>
+              $(document).ready(function() {
+            //    var x = document.getElementById('myCheck').value;
+              //   var y = document.getElementById('logout').value;
+              $('a').click(function(e) {  
+                          
+              e.preventDefault();
+              $("#content1").load($(this).attr('href'));
+              });
+              });
+            </script>
 </body>
 
 </html>

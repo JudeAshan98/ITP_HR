@@ -151,6 +151,7 @@ include('session.php');
                 <li><a><i class="fa fa-medkit "></i> Incident Management <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="Incident.php">Add Incident</a></li>
+                    <li><a href="Admin_Incidents.php">Add Incident</a></li>
                     <!-- <li><a href="AdminLeave.php">adminLeave Footer</a></li>-->
                   </ul>
                 </li>

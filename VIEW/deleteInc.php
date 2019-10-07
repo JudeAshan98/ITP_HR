@@ -1,5 +1,5 @@
 <?php
-$entry_to_be_deleted =$_GET['inc_idp'];
+$entry_to_be_deleted =$_GET['id'];
 $con = mysqli_connect('localhost', 'root', '');
 
 mysqli_select_db($con,'ITP_HR');

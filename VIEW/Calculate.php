@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <title>Performance Management</title>
-  <meta charset="utf-8">
+  <!--meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script-->
   <style>
 .slidecontainer {
   width: 50%;
@@ -52,21 +52,42 @@
 </head>
 
 <body>
+<?php
+  
+  $connect = new mysqli("localhost", "root", "", "ITP_HR");  
+  $id = $_GET['id'];
+  $sql = "SELECT p.image AS Pimage,e.F_name AS fr_name FROM emp_profile p,employee e where e.Emp_ID =$id AND e.Emp_id = p.Emp_id";
+   $result=mysqli_query($connect,$sql);
+//   var_dump($result);
+  while($row =  mysqli_fetch_array($result) ){
+    
+    $imagep = $row['Pimage'];
+    $pfname = $row['fr_name'];
+    
+  }
+   ?>
 <div class="container" role="main">
+
 <div class="jumbotron text-center" style="background-color:white">
+<img src="data:image/jpeg;base64,<?php echo base64_encode($imagep); ?>"class="rounded-circle" alt="Cinque Terre" width=100px height=100px></td>
+<?=$pfname?>
+       
+</div>
+<!--div class="jumbotron text-center" style="background-color:white">
   <h1 style="color:#160a57;margin-bottom: -2.5rem;">Natasha Amarasinghe</h1>
 </div>
 <div style = "margin-left: 10px; margin-top: 60px";>
 <img src="../IMG/finalize.jpg" class="rounded-circle" alt="Cinque Terre">
-</div>
-<br/>
+</div-->
+<!--<form action="update_ftask.php" method="GET">-->
+
 <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col"> KPI ID</th>
       <th scope="col">KPI Name</th>
-      <th scope="col">Weightage</th>
-      <th scope="col">Rating</th>
+      <th scope="col">Emp Rating</th>
+      <th scope="col">Final Rating</th>
     
       
     </tr>
@@ -74,24 +95,39 @@
   <tbody>
   <?php
   
-  $connect = new mysqli("localhost", "root", "", "ITP_HR");  
-  $sql = "SELECT kpi_id,kpi_name,rating,Weight FROM kpi where Emp_ID =1002"; 
+  $connect = new mysqli("localhost", "root", "", "ITP_HR"); 
+  $id = $_GET['id']; 
+  $sql = "SELECT kpi_id,kpi_name,Rating,Fin_Rating FROM kpi where Emp_ID =$id"; 
   $result=mysqli_query($connect,$sql);
 //   var_dump($result);
   while($row =  mysqli_fetch_array($result) ){
-     
+    
     $kpi_idp = $row['kpi_id'];
     $kpi_namep =$row['kpi_name'];
-    $Weight = $row['Weight'];
+    $kpi_rating =$row['Rating'];
+    $Fin_Rating =$row['Fin_Rating'];
    ?>
-    <tr>
+  
+
+    <tr> 
+
     <td scope="row"><?=$kpi_idp?></td>
     <td scope="row"><?=$kpi_namep?></td>
-    <td scope="row"><?=$Weight?></td> 
-    <th scope="row"><input type="number" data-toggle="modal" data-target="#myModal"></button></th>
-  </div></td>
+    <td scope="row"><?=$kpi_rating?></td>
+    
+    <!-- <td scope="row"><!?=$Fin_Rating?></td> -->
+    <td scope="row">
+        <form action="update_ftask.php" method="GET">
+              <input type="hidden" name="kpi_idp" value="<?=$kpi_idp?>">
+              <input type="number" name="Fin_Rating" value="<?=$Fin_Rating?>">
+              <button type="submit" class="btn btn-primary">Finalize</button>
+          </form>   
+    </td>
+    
+     
 
     </tr>
+   
     </tbody>
   <?php
     // $i++;
@@ -100,22 +136,31 @@
 
   </tbody>
 </table>
-</table>
-<div>
 
   
-  
-  <button type="submit" class="btn btn-primary">Calculate</button>
-  <input type="number" data-toggle="modal" data-target="#myModal"></button></th>                              
-  
-</div>
-  <div>
+
+<form method="GET" action="calculate_ftask.php">
+    <input type="hidden" name="idu" value="<?=$id?>" />
+
+    <input type="submit" value="Submit" />
+</form>
+<br>
+<br>
+<!-- <form action="mailtask.php" method="POST" >
+    email:<input type="email" name="email"><br><br>
+
+    <input type="submit" value="Send Email" />
+</form> -->
+<br>
+
+ <!-- <div>
         <br/>
         <button type="submit" class="btn btn-primary">Submit</button> 
         
-  </div>
+  </div>-->
 
 
-</div>
+
+
 </body>
 </html>

@@ -11,14 +11,15 @@ function fetch_data()
      $output .= '<tr>  
                          <td>  <input type="checkbox" id="defaultCheck" name="example2">
                          </td>
-                         <td>'.$row["Date"].'</td> 
+                         <td>'.$row["Emp_ID"].'</td>
+						 <td>'.$row["Date"].'</td> 
                          <td>'.$row["Incident_ID"].'</td>    
                          <td>'.$row["type"].'</td>
                          <td>'.$row["Priority"].'</td>
                          <td>'.$row["Tagged_Dept"].'</td>
                          <td>'.$row["Description"].'</td>
-                          
-                            
+                         <td>'.$row["Status"].'</td> 
+                         <td><a href="deleteinc.php?id=' . $row["Incident_ID"] . '">Delete</a></td>   
                     </tr>  
                          ';  
      }  
@@ -61,7 +62,8 @@ function fetch_data()
                 <thead>
                   <tr>
                     <th scope="col"></th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Emp_ID</th>
+					<th scope="col">Date</th>
                     <th scope="col">Incident ID</th>
                     <th scope="col">Type</th>
                     <th scope="col">Priority</th>
@@ -83,22 +85,7 @@ function fetch_data()
                 </tbody>
 
 
-<!--delete-->
-<?php 
-$output = '';  
-$connect = mysqli_connect("localhost", "root", "", "ITP_HR");  
-$sql = "SELECT * FROM incidents ORDER BY Incident_ID ASC";  
-$result = mysqli_query($connect, $sql);  
-while($row = mysqli_fetch_array($result))  
-{       
-?>
-                    <td scope="row">
-                        <a href=<?="deleteInc.php?inc_idp=".$row['Incident_ID']?>>
-                            <button type="button" class="btn btn-danger" method="GET">Remove</button>
-                        </a>
-                    </td>
-<?php } ?>
-<!--end delete-->               
+            
               </table>
   
 </div>

@@ -1,29 +1,27 @@
 <?php
 
+require_once "config.php"; 
 
-if (isset($_GET['submit'])) {
-    $EPF = $_GET['Emp_id'];
-    $Fi_name = $_GET['F_name'];
-    $La_name = $_GET['L_name'];
-    $dob = $_GET['DOB'];
-    $Contact = $_GET['contact'];
-    $Mail = $_GET['mail'];
-    $Gender = $_GET['gender'];
-    $Address = $_GET['address'];
-    $De_id  = $_GET['D_id'];
-
-    $connect = new mysqli("localhost", "root", "", "ITP_HR");
-
-$query=mysql_query("UPDATE employee set Emp_id='$EPF',F_name='$Fi_name',L_name='$La_name',DOB='$dob',contact='$Contact',
-mail='$Mail',gender='$Gender',address='$Address',D_id='$De_id' where Emp_id='$EPF'",$connect);
+if(count($_POST)>0) {
+  $query="UPDATE employee set Emp_id='" . $_POST['Emp_id'] . "', F_name='" . $_POST['F_name'] . "', L_name='" . $_POST['L_name'] . "', DOB='" . $_POST['DOB'] . "' ,contact='" . $_POST['contact'] . "',mail='" . $_POST['mail'] . "',
+    gender='" . $_POST['gender'] . "',address='" . $_POST['address'] . "',D_id='" . $_POST['D_id'] . "',password='" . $_POST['password'] . "', designation='" . $_POST['tag'] . "'  WHERE Emp_id='" . $_POST['Emp_id'] . "'";
+   // $message = "Record Modified Successfully";
+    }
+  
 
  
-if(mysql_query($connect,$query)){
-echo"Success";
-}
-else "Error upadting data";
+$result = mysqli_query($db, $query);
+   
+   if($result)
+   {
+       echo 'Data Updated';
+       header("refresh:1; url=dashboard.php");
+   }else{
+       echo 'Data Not Updated';
+       header("refresh:1; url=dashboard.php");
+   }
+   
 
-}
 
 
 ?>

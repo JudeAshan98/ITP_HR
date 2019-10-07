@@ -1,5 +1,7 @@
 <!-- retrive data to All my leaves table  -->
 <?php  
+
+include("session.php");
  function fetch_data_to_allMYLeaves()  
  {  
 
@@ -15,7 +17,8 @@
                           <td>'.$row["Start_Date"].'</td>  
                           <td>'.$row["End_Date"].'</td>  
                           <td>'.$row["Status"].'</td>
-                     </tr>  
+                          
+                    </tr>  
                           ';  
       }  
       return $output;  
@@ -85,6 +88,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
 
+   <!-- get report funtion -->
+   <script>
+function openWin() {
+  window.open("https://http://localhost:8080/ITP_HR/VIEW/LeaveReport.php");
+}
+</script>
+   
 
  
 </head>
@@ -118,6 +128,7 @@
                             <th scope="col">Starting date</th>
                             <th scope="col">End date</th>
                             <th scope="col">Status</th>
+                            
                         </tr>
                     </thead>
                     <?php
@@ -125,7 +136,10 @@
                      ?>
                 </table>
                 <br>
-                <button type="button" class="btn btn-primary" onclick="window.location.href='LeaveReport.php' ">&nbsp;Get report &nbsp;</button>
+                  <!-- get report button -->
+                <!-- <button type="button" class="btn btn-primary" onclick="window.location.href='LeaveReport.php' ">&nbsp;Get report &nbsp;</button> -->
+                <input type="button" class="btn btn-primary" value="Get Report" onclick="openWin(window.location.href='LeaveReport.php')">
+                 
             </div>
             <div id="menu3" class="tab-pane fade">
                 <!-- <h3>Approved Leaves</h3> --><br/><br/><br/>
@@ -144,23 +158,67 @@
 
                 </table>
             </div>
-            <div id="menu2" class="tab-pane fade">
-                <!-- <h3>Pending Leaves</h3> --><br/><br/><br/>
-                <table class="table table-bordered table-hover ">
-                    <thead>
-                        <tr>
-                            <th scope="col">Leave Type</th>
-                            <th scope="col">Starting date</th>
-                            <th scope="col">End date</th>
-                            
-                        </tr>
-                    </thead>
-                   
-                    <?php
-                         echo fetch_data_to_pendingLeaves();
-                     ?>
 
-                </table>
+
+            <div id="menu2" class="tab-pane fade">
+            <?php
+            require_once "config.php";
+            $result = mysqli_query($db, "SELECT * FROM apply_leaves where status='pending'");
+            
+            ?>
+            <form name="frmUser" method="post" action="">
+      <div style="float:right">
+          <!-- <button type="button" class="btn btn-primary" style="padding:10px" onClick="setUpdateAction();">Approve</button> -->
+          <button type="button" class="btn btn-danger" style="padding:10px" onClick="setDeleteAction1();">Delete</button>
+          <br/><br/>
+      </div>
+          
+            
+      <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+              <th scope="col">Leave Type</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <!-- <th scope="col">Status</th> -->
+                <th scope="col"> </th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+              <?php
+                  $i = 0;
+                   while($row =  mysqli_fetch_array($result) ){
+                    if ($i % 2 == 0)
+                      $classname = "evenRow";
+                    else
+                       $classname = "oddRow";
+                ?>             
+                  <tr>
+                      <!-- <td scope="row"><!?=$num?></td> -->
+                      <td scope="row"><?php echo $row["Type"];?></td>
+                      <td scope="row"><?php echo $row["Start_Date"]; ?></td>
+                      <td scope="row"><?php echo $row["End_Date"]; ?></td>
+                      <!-- <td scope="row"><!?php echo $row["Status"]; ?></td> -->
+                      
+                       <!-- <td>  <input type = "checkbox" name="admincheckbox"/> </td> -->
+                       <td scope="row"><input type="checkbox" name="ID[]" value="<?php echo $row["ID"]; ?>"></td>
+                  </tr>
+                  <?php
+                   $i++;
+              }
+              ?>
+                  </tbody>
+                  
+            </tbody>
+          </table>
+          </form>
+      <script>
+        function setDeleteAction1() {
+            document.frmUser.action = "deleteLeave.php";
+            document.frmUser.submit();
+        }
+      </script>
+
             </div>
             <!-- <div id="menu3" class="tab-pane fade">
                 <h3>Menu 3</h3>
@@ -180,7 +238,7 @@
 
                 <div class="modal-body"> 
                     
-                    <form class="row" action="inputLeaveForm.php" method = "post" onsubmit="return validateForm()">
+                    <form class="row" action="inputLeaveForm.php" method = "post">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                     <label for="inputAddress">Leave type</label>
@@ -204,12 +262,21 @@
                         </div>
                                  <!-- addcoveredPerson       -->
                                  <div class="form-group col-md-12">
-                                    <label for="inputAddress">Covered Person</label>
-                                    <select id="inputAddress" class="form-control" name="Covering_Emp">
-                                        <option selected>judeashanlakmal@gmail.com</option>
-                                        <option>1818164886@my.sliit.lk</option>
-                                        <option>hmadushan@evis.com.au</option>
-                                        </select>
+                                 <label for="inputEmail4">Covering Employee</label>
+                  <select id="inputEmp" name="Covering_Emp" class="form-control" >required>
+                    <!-- <option selected>Choose...</option> -->
+                    <?php
+                                    $res=mysqli_query($db,"SELECT mail FROM employee where D_id=(select D_id from employee where Emp_id=$login_session)");
+                                    while($row=mysqli_fetch_array($res)){
+                                        
+                                    ?>
+                                    <option>
+                                    <?php echo $row["mail"]?>
+                                    </option>
+                                    <?php
+                                    }
+                                    ?>
+                  </select>
                             </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -237,10 +304,10 @@
 
 <script>
     function validateForm(){
-      var startDate = document.getElementById("startingdate").value;
-      var endDate = document.getElementById("enddate").value;
+      date startDate = document.getElementById("startingdate").value;
+      date endDate = document.getElementById("enddate").value;
 
-    if ((Date.parse(endDate) <= Date.parse(startDate))) {
+    if ((Date.parse(enddate) <= Date.parse(startingdate))) {
         alert("End date should be greater than Start date");
         document.getElementById("enddate").value = "";
     }

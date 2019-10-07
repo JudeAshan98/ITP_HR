@@ -83,31 +83,31 @@
                 
                 <div class="form-group">
                   <label for="Emp_id">Emp ID:</label>
-                  <input type="Number" class="form-control" id="Emp_id" name="Emp_id">
+                  <input type="Number" class="form-control" id="Emp_id" name="Emp_id" required >
                 </div>
                 <div class="form-group">
                   <label for="F_name">First Name:</label>
-                  <input type="text" class="form-control" id="F_name" name="F_name">
+                  <input type="text" class="form-control" id="F_name" name="F_name" required>
                 </div>
 
                 <div class="form-group">
                   <label for="L_name">Last Name:</label>
-                  <input type="text" class="form-control" id="L_name" name="L_name">
+                  <input type="text" class="form-control" id="L_name" name="L_name" required>
                 </div>
 
                 <div class="form-group">
                   <label for="DOB">Date of birth:</label>
-                  <input type="Date" class="form-control" id="DOB" name="DOB">
+                  <input type="Date" class="form-control" id="DOB" name="DOB" required>
                 </div>
 
                 <div class="form-group">
                   <label for="contact">Contact no:</label>
-                  <input type="text" class="form-control" id="contact"name="contact">
+                  <input type="text" class="form-control" id="contact"name="contact" required>
                 </div>
 
                 <div class="form-group">
                   <label for="mail">E-mail:</label>
-                  <input type="email" class="form-control" id="mail" name="mail">
+                  <input type="email" class="form-control" id="mail" name="mail" required>
                 </div>
 
                 <div class="form-check">
@@ -123,19 +123,35 @@
 
                 <div class="form-group">
                   <label for="address">Address:</label>
-                  <input type="text" class="form-control" id="address" name="address">
+                  <input type="text" class="form-control" id="address" name="address" required>
                 </div>
 
                 <div class="form-group">
                   <label for="D_id">Department ID:</label>
-                  <input type="number" class="form-control" id="D_id" name="D_id">
+                  <input type="number" class="form-control" id="D_id" name="D_id" required>
                 </div>
                 <div class="custom-file mb-3">
-                  <input type="file" class="custom-file-input" id="Scan_docs" name="Scan_docs">
-                  <label class="custom-file-label" for="customFile">Upload scan documents</label>
+                <input type="file" class="custom-file-input" id="Scan_docs" name="filename">
+                <label class="custom-file-label" for="customFile">Upload scan documents</label>
+               </div>
+                <div class="form-group">
+                  <label for="password">Password:</label>
+                  <input type="text" class="form-control" id="password" name="password" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary" onclick="profileValidation()">Submit</button>
+                <div class="form-group">
+                <label for="sel1">Tag the Designation*</label>
+                <select class="form-control" name="tag" id="sel1" required>
+               <option selected hidden value="">Select</option>
+               <option>Excutive</option>
+               <option>HOD</option>
+               <option>ADMIN</option>
+              </select>
+              </div>
+                
+               
+
+                <button type="submit"  class="btn btn-primary" onclick="ProfileValidation()" >Submit</button>
                 <button type="reset" class="btn btn-primary">Reset</button>
                 
               

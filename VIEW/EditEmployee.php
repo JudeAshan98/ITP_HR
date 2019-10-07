@@ -1,8 +1,8 @@
 <?php
 
 $connect = new mysqli("localhost", "root", "", "ITP_HR");
-$sql = "SELECT * FROM employee where emp_id = 2453";
-$result = mysqli_query($connect, $sql);
+$result =  mysqli_query($connect ,"SELECT * FROM employee WHERE Emp_id='" . $_GET['Emp_id'] . "'");
+
 while ($row =  mysqli_fetch_array($result)) {
 
   $EPF = $row['Emp_id'];
@@ -14,9 +14,15 @@ while ($row =  mysqli_fetch_array($result)) {
   $Gender = $row['gender'];
   $Address = $row['address'];
   $De_id = $row['D_id'];
+  $password=$row['password'];
+  $designation=$row['designation'];
+
+
 
 
 }
+
+
 
 ?>
 
@@ -92,7 +98,8 @@ while ($row =  mysqli_fetch_array($result)) {
 
     /*Profile Pic End*/
   </style>
-<script src="ProfileValidation.js"></script>
+
+
 </head>
 
 <body>
@@ -104,7 +111,7 @@ while ($row =  mysqli_fetch_array($result)) {
     <br />
     <h1>Profile</h1>
 
-    <form action="Update.php" >
+    <form action="Update.php" method="post" >
       <div class="container">
         <div class="picture-container">
           <div class="picture">
@@ -118,55 +125,55 @@ while ($row =  mysqli_fetch_array($result)) {
         <!-- <div class="form-row"> -->
 
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group ">
             <label for="Emp_id">Emp ID:</label>
-            <input type="Number" class="form-control" id="Emp_id" value="<?= $EPF ?>">
+            <input type="Number" class="form-control" id="Emp_id" value="<?= $EPF ?>" name="Emp_id" required>
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group ">
             <label for="F_name">First Name:</label>
-            <input type="text" class="form-control" id="F_name" value="<?= $Fi_name ?>">
+            <input type="text" class="form-control" id="F_name" value="<?= $Fi_name ?>" name="F_name" required>
           </div>
         </div>
         <div class="form-group">
           <label for="L_name">Last Name:</label>
-          <input type="text" class="form-control" id="L_name" value="<?= $La_name ?>">
+          <input type="text" class="form-control" id="L_name" value="<?= $La_name ?>" name="L_name" required>
         </div>
         <div class="form-group row">
-          <div class="form-group col-md-6">
+          <div class="form-group ">
             <label for="DOB">Date of birth:</label>
-            <input type="Date" class="form-control" id="DOB" value="<?= $dob ?>">
+            <input type="Date" class="form-control" id="DOB" value="<?= $dob ?>" name="DOB" required>
           </div>
 
-          <div class="form-group col-md-6">
+          <div class="form-group ">
             <label for="contact">Contact no:</label>
-            <input type="number" class="form-control" id="contact" value="<?= $Contact ?>">
+            <input type="number" class="form-control" id="contact" value="<?= $Contact ?>"name="contact" required>
           </div>
         </div>
         <div class="form-group">
           <label for="mail">E-mail:</label>
-          <input type="email" class="form-control" id="mail" value="<?= $Mail ?>">
+          <input type="contact" class="form-control" id="mail" value="<?= $Mail ?>"name="mail" required>
         </div>
 
-        <div class="form-check">
+        <div class="form-check" value="<?= $Gender ?>">
           <label class="form-check-label" for="radio1">
             <input type="radio" class="form-check-input" id="Male" name="gender" value="Male" checked>Male
           </label>
         </div>
-        <div class="form-check">
+        <div class="form-check" value="<?= $Gender ?>">
           <label class="form-check-label" for="radio2">
             <input type="radio" class="form-check-input" id="Female" name="gender" value="Female">Female
           </label>
         </div>
 
         <div class="form-row">
-         <div class="form-group col-md-6">
+         <div class="form-group ">
           <label for="address">Address:</label>
-          <input type="text" class="form-control" id="address">
+          <input type="text" class="form-control" id="address"value="<?= $Address ?>"name="address" required >
         </div>
 
-        <div class="form-group  col-md-6">
+        <div class="form-group  ">
           <label for="D_id">Department ID:</label>
-          <input type="number" class="form-control" id="D_id">
+          <input type="number" class="form-control" id="D_id" value="<?= $De_id ?>" name="D_id" required>
         </div>
         </div>
         <div class="custom-file mb-3">
@@ -174,14 +181,39 @@ while ($row =  mysqli_fetch_array($result)) {
           <label class="custom-file-label" for="customFile">Upload scan documents</label>
         </div>
 
-        <button type="submit" class="btn btn-primary" onclick="ProfileValidation()" action="update.php">Update</button>
+        <div class="form-group ">
+                  <label for="password">Password:</label>
+                  <input type="text" class="form-control" id="password" value="<?= $password ?>" name="password" required>
+                </div>
+
+                <div class="form-group">
+                <label for="sel1">Select designation</label>
+                <select class="form-control" name="tag" id="sel1" required>
+               <option selected hidden value="">Select</option>
+               <option>Excutive</option>
+               <option>HOD</option>
+               <option>ADMIN</option>
+              </select>
+              </div>
+
+        <button type="submit" class="btn btn-primary" onclick="required ProfileValidation()" name="submit">Update</button>
+        <button class="btn btn-primary" onclick="printFunction()" id="cmd">Print this Document</button>
     </form>
   </div>
   </div>
 
+  <script>
+        function printFunction() {
+        document.getElementById('cmd').style.visibility='hidden';
+        window.print();
+            }
+    </script>
+
+<?php
 
 
 
+?>
 </body>
 
 </html>

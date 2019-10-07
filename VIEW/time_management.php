@@ -1,3 +1,8 @@
+<?php
+  require_once "config.php";
+  $result = mysqli_query($db, "SELECT * FROM time_sheet");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +16,14 @@
    <!--Boostrap files end-->
 </head>
 <body>
+<button onclick="printFunction()" id="cmd">Print this Document</button>
 
 <div class="container" role= "main">
 <div class="jumbotron text-center"style="padding-top:40px; padding-bottom:0px; background-color: transparent;" >
   <h3 >Time Management</h3>
 </div>
+<form name="frmUser" method="post" action="">
+<button type="button" class="btn btn-danger" style="padding:10px" onClick="setDeleteAction();">Delete</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right">
   +Add Enrty
   </button>
@@ -24,50 +32,43 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Task</th>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Break Time</th>
-      <th>KPI</th>
+      <th scope="col">Date</th>
+      <th scope="col">Task</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col">Break Time</th>
+      <th scope="col">KPI</th>
+      <th scope="col">#</th>
       
     </tr>
   </thead>
   <tbody>
-    <?php
-    // $x = 10;
-    // $i = 0;
-    $connect = new mysqli("localhost", "root", "", "ITP_HR");  
-    $sql = "SELECT *  FROM time_sheet"; 
-    $result=mysqli_query($connect,$sql);
-  //   var_dump($result);
-    while($row =  mysqli_fetch_array($result) ){
-      $kpi_idp = $row['KPI_ID'];
-      $Date = $row['Date'];
-      $Start_time = $row['Start_Time'];
-      $End_time =$row['End_Time'];
-      $break = $row['Break'];
-      $Description =$row['Description'];
-      $kpi_desc =$row['KPI_Description'];
-      //$rate = $row['rating'];
-     ?>
-      <tr>
-        <td scope="row"><?=$Date?> </td>
-        <td scope="row"><?=$Description?></td>
-        <td scope="row"><?=$Start_time?> </td>
-        <td scope="row"><?=$End_time?></td>
-        <td scope="row"><?=$break?> </td>
-        <!-- <td scope="row"><!?=$Description?></td> -->
-        <td scope="row"><?=$kpi_idp?></td>
-      
-      </tr>
-      </tbody>
-    <?php
-      // $i++;
-    }
-    ?>
+  <tbody>
+              <?php
+                  $i = 0;
+                   while($row =  mysqli_fetch_array($result) ){
+                    if ($i % 2 == 0)
+                      $classname = "evenRow";
+                    else
+                       $classname = "oddRow";
+                ?>             
+                  <tr>
+                      <td scope="row"><?php echo $row["Date"]; ?></td>
+                      <td scope="row"><?php echo $row["Description"]; ?></td>
+                      <td scope="row"><?php echo $row["Start_Time"]; ?></td>
+                      <td scope="row"><?php echo $row["End_Time"]; ?></td>
+                      <td scope="row"><?php echo $row["Break"]; ?></td>
+                      <td scope="row"><?php echo $row["KPI_ID"]; ?></td>
+                      <td scope="row"><input type="checkbox" name="id[]" value="<?php echo $row["id"]; ?>"></td>
+                  </tr>
+                  <?php
+                   $i++;
+              }
+              ?>
+                  </tbody>
   
     </tbody>
+    </form>
   </table>
 </div>
 
@@ -90,14 +91,15 @@
               
                   <div class="form-row">
                       <div class="form-group">
+    
                           <label for="sel1">KPI ID </label>
-                          <input type="number" class="form-control"   name="KPI_ID" placeholder="KPI ID" required>
+                          <input type="text" class="form-control"   name="KPI_ID" placeholder="KPI ID" pattern="[0-9]{1,100}" title = "KPI number should contain only Sdigits" required>
                       </div>
                   </div>
                   <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="startDate">Start Time</label><br/>
-                    <input type ="time" class="form-control" name="start_time"id="sd" required>
+                    <input type ="time" class="form-control" name="start_time"id="sd" * required>
                   </div>
                   <div  class="form-group col-md-6">
                     <label for="EndDate">End Time</label><br/>
@@ -148,5 +150,19 @@
     }
 
   </script>
+   <script>
+          function setDeleteAction() {
+          if(confirm("Are you sure want to Reject these Travel requests?")) {
+          document.frmUser.action = "DeleteTime.php";
+          document.frmUser.submit();
+          }
+          }
+        </script>
+   <script>
+        function printFunction() {
+        document.getElementById('cmd').style.visibility='hidden';
+        window.print();
+            }
+    </script>
 </body>
 </html>
